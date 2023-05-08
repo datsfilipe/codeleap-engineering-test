@@ -1,5 +1,5 @@
 export default function Input({ multiline, value, onChange, ...props }: { multiline?: boolean } & React.HTMLProps<HTMLInputElement>) {
-  const classNames="bg-white text-black rounded-lg px-2 py-[4px] placeholder-gray-darker border border-muted w-full h-full max-h-[200px]"
+  const classNames='bg-white text-black rounded-lg px-2 py-[4px] placeholder-gray-darker border border-muted w-full h-full max-h-[200px]'
 
   if (multiline) {
     return (
@@ -10,7 +10,7 @@ export default function Input({ multiline, value, onChange, ...props }: { multil
         rows={3}
         {...props}
       />
-    );
+    )
   }
 
   return (
@@ -20,5 +20,5 @@ export default function Input({ multiline, value, onChange, ...props }: { multil
       onChange={onChange}
       {...props}
     />
-  );
+  )
 }

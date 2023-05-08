@@ -1,8 +1,8 @@
 'use client'
-import Post from "@/components/post";
-import PostCreateForm from "../../components/postCreateForm.tsx";
-import { store } from "../../redux/store"
-import { useEffect, useState } from "react"
+import Post from '../../components/post'
+import PostCreateForm from '../../components/postCreateForm'
+import { store } from '../../redux/store'
+import { useEffect, useState } from 'react'
 
 type Post = {
   id: number
@@ -14,7 +14,7 @@ type Post = {
 
 const getPosts = async () => {
   const response = await fetch('https://dev.codeleap.co.uk/careers/')
-  const { results } = await response.json()
+  const { results } = await response.json() as { results: Post[] }
   return results ? results : []
 }
 
@@ -22,7 +22,7 @@ export default function Feed() {
   const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
-    getPosts().then((response) => setPosts(response))
+    getPosts().then((response) => setPosts(response)) // eslint-disable-line
   }, [])
 
   useEffect(() => {

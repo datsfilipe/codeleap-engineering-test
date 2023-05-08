@@ -3,7 +3,7 @@ import Image from 'next/image'
 import trashIcon from '../assets/ic_baseline-delete-forever.svg'
 import editIcon from '../assets/bx_bx-edit.svg'
 import Modal from './modal'
-import { useEffect, useState } from 'react'
+import { type ChangeEvent, useEffect, useState } from 'react'
 import Input from './input'
 
 type PostProps = {
@@ -63,13 +63,13 @@ export default function Post({ id, title, username, content, createdAt }: PostPr
                 className="text-white"
                 onClick={() => setIsDeleteModalOpen(true)}
               >
-                <Image src={trashIcon} alt="Delete" />
+                <Image src={trashIcon as string} alt="Delete" />
               </button>
               <button
                 className="text-white cursor-pointer"
                 onClick={() => setIsEditModalOpen(true)}
               >
-                <Image src={editIcon} alt="Edit" />
+                <Image src={editIcon as string} alt="Edit" />
               </button>
             </div>
           )}
@@ -104,6 +104,7 @@ export default function Post({ id, title, username, content, createdAt }: PostPr
           <button
             className="text-white bg-red-500 px-10 text-base py-[3px] font-bold rounded-lg"
             onClick={() => {
+              // eslint-disable-next-line
               deletePost(id).then(() => {
                 window.location.reload()
               })
@@ -123,11 +124,11 @@ export default function Post({ id, title, username, content, createdAt }: PostPr
       >
         <div>
           <label className="text-black">Title</label>
-          <Input type="text" placeholder="Hello World" value={titleInput} onChange={(e) => setTitleInput(e.target.value)} />
+          <Input type="text" placeholder="Hello World" value={titleInput} onChange={(e: ChangeEvent<HTMLInputElement>) => setTitleInput(e.target.value)} />
         </div>
         <div>
           <label className="text-black">Content</label>
-          <Input type="text" placeholder="Hello World" multiline value={contentInput} onChange={(e) => setContentInput(e.target.value)} />
+          <Input type="text" placeholder="Hello World" multiline value={contentInput} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setContentInput(e.target.value)} />
         </div>
         <div className="flex justify-end space-x-4 mt-8">
           <button
@@ -139,6 +140,7 @@ export default function Post({ id, title, username, content, createdAt }: PostPr
           <button
             className="text-white bg-green-500 px-10 text-base py-[3px] font-bold rounded-lg"
             onClick={() => {
+              // eslint-disable-next-line
               editPost(id, titleInput, contentInput).then(() => {
                 window.location.reload()
               })

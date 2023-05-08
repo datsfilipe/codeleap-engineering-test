@@ -1,7 +1,7 @@
 'use client'
-import Button from "./button"
-import Input from "./input"
-import { FormEvent, useEffect, useState } from "react"
+import Button from './button'
+import Input from './input'
+import { type FormEvent, useEffect, useState, type ChangeEvent } from 'react'
 
 const post = async (username: string, title: string, content: string) => {
   try {
@@ -34,8 +34,9 @@ export default function PostCreateForm() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    post(username, title, content).then((response) => {
-      if (response?.ok) {
+    // eslint-disable-next-line
+    post(username, title, content).then((response: { ok: boolean }) => {
+      if (response.ok) {
         window.location.reload()
       }
     })
@@ -46,11 +47,11 @@ export default function PostCreateForm() {
       <h1 className="text-xl font-bold">What&apos;s on your mind?</h1>
       <div>
         <label className="text-black">Title</label>
-        <Input type="text" placeholder="Hello World" value={title} onChange={event => setTitle(event.target.value)} />
+        <Input type="text" placeholder="Hello World" value={title} onChange={(event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value)} />
       </div>
       <div>
         <label className="text-black">Content</label>
-        <Input type="text" placeholder="Hello World" multiline onChange={event => setContent(event.target.value)} />
+        <Input type="text" placeholder="Hello World" multiline onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setContent(event.target.value)} />
       </div>
       <div className="flex justify-end">
         <Button type="submit">Create</Button>

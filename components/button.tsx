@@ -6,5 +6,5 @@ export default function Button({ children, ...props }: { children: React.ReactNo
     >
       {children}
     </button>
-  );
+  )
 }
