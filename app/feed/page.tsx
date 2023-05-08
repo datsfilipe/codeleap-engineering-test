@@ -10,7 +10,7 @@ type Post = {
 }
 
 const getPosts = async () => {
-  const response = await fetch('*')
+  const response = await fetch('https://dev.codeleap.co.uk/careers/')
   const { results } = await response.json()
   return results ? results : []
 }
@@ -34,6 +34,7 @@ export default async function Feed() {
               createdAt={post.created_datetime}
               title={post.title}
               content={post.content}
+              id={post.id}
             />
           ))}
         </div>

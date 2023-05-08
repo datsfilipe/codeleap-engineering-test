@@ -17,7 +17,7 @@ type PostProps = {
 
 const deletePost = async (id: number) => {
   try {
-    const response = await fetch(`*`, {
+    const response = await fetch(`https://dev.codeleap.co.uk/careers/${id}`, {
       method: 'DELETE',
     })
 
@@ -29,8 +29,8 @@ const deletePost = async (id: number) => {
 
 const editPost = async (id: number, title: string, content: string) => {
   try {
-    const response = await fetch(`*`, {
-      method: 'PUT',
+    const response = await fetch(`https://dev.codeleap.co.uk/careers/${id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -61,7 +61,7 @@ export default function Post({ id, title, username, content, createdAt }: PostPr
       <div className="flex flex-col">
         <header className="flex items-center justify-between p-4 bg-primary text-white font-bold text-[22px] rounded-t-2xl">
           <h1>{title.length > 16 ? `${title.slice(0, 16)}...` : title}</h1>
-          {localStorage.getItem('username') !== username && (
+          {localStorage.getItem('username') === username && (
             <div className="flex items-center space-x-4">
               <button
                 className="text-white"
