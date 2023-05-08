@@ -17,11 +17,9 @@ type PostProps = {
 
 const deletePost = async (id: number) => {
   try {
-    const response = await fetch(`https://dev.codeleap.co.uk/careers/${id}`, {
+    await fetch(`https://dev.codeleap.co.uk/careers/${id}/`, {
       method: 'DELETE',
     })
-
-    return response.ok
   } catch (error) {
     console.error(error)
   }
@@ -29,15 +27,13 @@ const deletePost = async (id: number) => {
 
 const editPost = async (id: number, title: string, content: string) => {
   try {
-    const response = await fetch(`https://dev.codeleap.co.uk/careers/${id}`, {
+    await fetch(`https://dev.codeleap.co.uk/careers/${id}/`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ title, content }),
     })
-
-    return response.ok
   } catch (error) {
     console.error(error)
   }
@@ -47,8 +43,8 @@ export default function Post({ id, title, username, content, createdAt }: PostPr
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const [titleInput, setTitleInput] = useState('')
-  const [contentInput, setContentInput] = useState('')
+  const [titleInput, setTitleInput] = useState(title)
+  const [contentInput, setContentInput] = useState(content)
 
   useEffect(() => {
     setMounted(true)
@@ -81,7 +77,13 @@ export default function Post({ id, title, username, content, createdAt }: PostPr
         <div className="flex flex-col p-4 space-y-2 border-r border-l border-b border-gray-darker rounded-b-2xl">
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold text-muted">@{username > 16 ? `${username.slice(0, 16)}...` : username}</p>
-            <p className="text-lg text-gray-darker">{new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(createdAt))}</p>
+            <p className="text-lg text-gray-darker">{
+              new Date(createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            }</p>
           </div>
           <p className="text-black text-justify overflow-hidden">{content}</p>
         </div>
@@ -102,7 +104,10 @@ export default function Post({ id, title, username, content, createdAt }: PostPr
           <button
             className="text-white bg-red-500 px-10 text-base py-[3px] font-bold rounded-lg"
             onClick={() => {
-              deletePost(id)
+              deletePost(id).then(() => {
+                window.location.reload()
+              })
+
               setIsDeleteModalOpen(false)
             }}
           >
@@ -134,7 +139,10 @@ export default function Post({ id, title, username, content, createdAt }: PostPr
           <button
             className="text-white bg-green-500 px-10 text-base py-[3px] font-bold rounded-lg"
             onClick={() => {
-              editPost(id, titleInput, contentInput)
+              editPost(id, titleInput, contentInput).then(() => {
+                window.location.reload()
+              })
+
               setIsEditModalOpen(false)
             }}
           >

@@ -1,5 +1,8 @@
+'use client'
 import Post from "@/components/post";
 import PostCreateForm from "../../components/postCreateForm.tsx";
+import { store } from "../../redux/store"
+import { useEffect, useState } from "react"
 
 type Post = {
   id: number
@@ -15,8 +18,19 @@ const getPosts = async () => {
   return results ? results : []
 }
 
-export default async function Feed() {
-  const posts = await getPosts() as Post[]
+export default function Feed() {
+  const [posts, setPosts] = useState<Post[]>([])
+
+  useEffect(() => {
+    getPosts().then((response) => setPosts(response))
+  }, [])
+
+  useEffect(() => {
+    store.subscribe(() => {
+      const state = store.getState()
+      setPosts(state.posts)
+    })
+  }, [])
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">

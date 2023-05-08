@@ -5,7 +5,7 @@ import { FormEvent, useEffect, useState } from "react"
 
 const post = async (username: string, title: string, content: string) => {
   try {
-    await fetch('https://dev.codeleap.co.uk/careers/', {
+    const response = await fetch('https://dev.codeleap.co.uk/careers/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -16,6 +16,8 @@ const post = async (username: string, title: string, content: string) => {
         content,
       }),
     })
+
+    return response
   } catch (error) {
     console.log(error)
   }
@@ -32,7 +34,11 @@ export default function PostCreateForm() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    post(username, title, content)
+    post(username, title, content).then((response) => {
+      if (response?.ok) {
+        window.location.reload()
+      }
+    })
   }
 
   return (
